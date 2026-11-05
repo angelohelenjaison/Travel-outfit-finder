@@ -1,0 +1,50 @@
+{% extends 'adminHome.html' %}
+{% block content %}
+
+<br><br><br><br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Registered Accomodation</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Proof</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.location }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.phone }}</td>
+                        <td>{{ i.address }}</td>
+                        <td>
+                            <a href="static/media/{{ i.proof }}">
+                                <img src="static/media/{{ i.proof }}" alt="" style="width:100px; height:100px; object-fit:cover;">
+                            </a>
+                        </td>
+
+                        <td>
+                            {% if i.user.is_active == 1 %}
+                                <a href="adm_app_acc?status=inactive&id={{ i.user.id }}" class="btn btn-danger btn-sm">Make inactive</a>
+                            {% else %}
+                                <a href="adm_app_acc?status=active&id={{ i.user.id }}" class="btn btn-success btn-sm">Make Active</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

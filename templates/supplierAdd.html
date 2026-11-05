@@ -1,0 +1,161 @@
+{% extends "supplierHome.html" %}
+{% block content %}
+
+
+
+<!-- Travel Hero Section -->
+    <section id="travel-hero" class="travel-hero section dark-background">
+
+      <div class="hero-background">
+        <video autoplay="" muted="" loop="">
+          <source src="static/assets/img/travel/137578-766938294.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="container position-relative">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <!-- <div class="hero-text" data-aos="fade-up" data-aos-delay="100">
+              <h1 class="hero-title">Discover Your Perfect Journey</h1>
+              <p class="hero-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+              <div class="hero-buttons">
+                <a href="#" class="btn btn-primary me-3">Start Exploring</a>
+                <a href="#" class="btn btn-outline">Browse Tours</a>
+              </div>
+            </div> -->
+          </div>
+
+          <div class="col-lg-5">
+            <div class="booking-form-wrapper" data-aos="fade-left" data-aos-delay="200">
+              <div class="booking-form">
+                <h3 class="form-title">ADD PRODUCT</h3>
+              <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                  <label>PRODUCT NAME</label>
+                  <input type="text" name="productname" class="form-control" required>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label>CATEGORY</label>
+                  <input type="text" name="category" class="form-control" required >
+                </div>
+
+                <div class="form-group mb-3">
+                  <label>WEATHER TYPE</label>
+                  <input type="text" name="weather" class="form-control" required >
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label>DESCRIPTION</label>
+                  <textarea name="description" class="form-control" required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label>IMAGE</label>
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+                
+                <div class="row g-2 mb-3">
+                  <div class="col">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
+                  </div>
+                  <div class="col">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" id="price" name="price" min="1" class="form-control" required>
+                  </div>
+                </div>
+
+                
+                <button type="submit" name="register" class="btn btn-primary w-100">ADD</button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Travel Hero Section -->
+
+
+<!-- Featured Products Section -->
+<section id="featured-products" class="featured-products section py-5 bg-light">
+
+  <!-- Section Title -->
+  <div class="container text-center mb-5" data-aos="fade-up">
+    <h2 class="fw-bold">My Products</h2>
+    <p class="text-muted">All uploaded products</p>
+  </div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    {% if products %}
+    <div class="row g-4">
+
+      {% for product in products %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0 product-card">
+
+          <!-- Product Image -->
+          <div class="position-relative">
+            <div class="ratio ratio-4x3"> <!-- fixed aspect ratio -->
+              <img src="static/media/{{ product.image }}" alt="{{ product.name }}" class="img-fluid rounded-top object-fit-cover" loading="lazy">
+            </div>
+            <span class="badge bg-primary position-absolute top-0 start-0 m-2">{{ product.category }}</span>
+            <span class="badge bg-success position-absolute top-0 end-0 m-2">{{ product.weather }}</span>
+          </div>
+
+          <!-- Product Content -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Product Name -->
+            <h5 class="card-title fw-bold">{{ product.name }}</h5>
+
+            <!-- Product Description -->
+            <p class="card-text text-secondary small mb-3">{{ product.description|truncatechars:100 }}</p>
+
+            <!-- Product Meta -->
+            <div class="d-flex flex-wrap justify-content-between mb-3 small text-muted">
+              <span><i class="bi bi-box-seam me-1"></i> Stock: {{ product.quantity }}</span>
+              <span><i class="bi bi-tags me-1"></i> {{ product.category }}</span>
+              <span><i class="bi bi-currency-rupee me-1"></i> ₹ {{ product.price }}</span>
+              <span><i class="bi bi-cloud-sun me-1"></i> {{ product.weather }}</span>
+            </div>
+
+            <div>
+              <span class="badge bg-secondary">Status:{{ product.status }}</span>
+            </div>
+
+            {% if product.status != 'Rejected' %}
+            <!-- Action Form -->
+            <form action="/addqty" method="post" class="mt-auto">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+              <div class="input-group mb-2">
+                <input type="number" name="quantity" class="form-control form-control-sm" placeholder="Qty" required min="1">
+                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+              </div>
+            </form>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% else %}
+      <p class="text-center text-muted">No products uploaded yet.</p>
+    {% endif %}
+
+  </div>
+</section>
+<!-- End Featured Products Section -->
+
+
+
+
+
+{% endblock %}

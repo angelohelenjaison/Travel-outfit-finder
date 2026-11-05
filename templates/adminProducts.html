@@ -1,0 +1,84 @@
+{% extends "adminHome.html" %}
+{% block content %}
+
+
+<br><br><br><br>
+
+
+
+<!-- Featured Products Section -->
+<section id="featured-products" class="featured-products section py-5 bg-light">
+
+  <!-- Section Title -->
+  <div class="container text-center mb-5" data-aos="fade-up">
+    <h2 class="fw-bold">Products</h2>
+    <p class="text-muted">All uploaded products</p>
+  </div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    {% if data %}
+    <div class="row g-4">
+
+      {% for product in data %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 shadow-sm border-0 product-card">
+
+          <!-- Product Image -->
+          <div class="position-relative">
+            <div class="ratio ratio-4x3"> <!-- fixed aspect ratio -->
+              <img src="static/media/{{ product.image }}" alt="{{ product.name }}" class="img-fluid rounded-top object-fit-cover" loading="lazy">
+            </div>
+            <span class="badge bg-primary position-absolute top-0 start-0 m-2">{{ product.category }}</span>
+            <span class="badge bg-success position-absolute top-0 end-0 m-2">{{ product.weather }}</span>
+          </div>
+
+          <!-- Product Content -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Product Name -->
+            <h5 class="card-title fw-bold">{{ product.name }}</h5>
+
+            <!-- Product Description -->
+            <p class="card-text text-secondary small mb-3">{{ product.description|truncatechars:100 }}</p>
+
+            <!-- Product Meta -->
+            <div class="d-flex flex-wrap justify-content-between mb-3 small text-muted">
+              <span><i class="bi bi-box-seam me-1"></i> Stock: {{ product.quantity }}</span>
+              <span><i class="bi bi-tags me-1"></i> {{ product.category }}</span>
+              <span><i class="bi bi-currency-rupee me-1"></i> ₹ {{ product.price }}</span>
+              <span><i class="bi bi-cloud-sun me-1"></i> {{ product.weather }}</span>
+            </div>
+
+            <h5 class="card-title fw-bold">uploaded by: {{ product.supplier.compnay_name }}</h5>
+            <p>{{ product.supplier.email }}, {{ product.supplier.phone }}</p>
+
+            {% if product.status == 'Pending' %}
+            <div class="d-flex">
+                <a href="/adminApproveProduct?product_id={{ product.id }}&status=Approved" class="btn btn-success w-50 me-2">Approve</a>
+                <a href="/adminApproveProduct?product_id={{ product.id }}&status=Rejected" class="btn btn-danger w-50 ms-2">Reject</a>
+            </div>
+            {% else %}
+            <span class="badge bg-secondary">{{ product.status }}</span>
+            {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% else %}
+      <p class="text-center text-muted">No products uploaded yet.</p>
+    {% endif %}
+
+  </div>
+</section>
+<!-- End Featured Products Section -->
+
+
+
+
+
+{% endblock %}

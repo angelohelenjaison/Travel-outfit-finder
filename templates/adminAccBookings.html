@@ -1,0 +1,97 @@
+{% extends "adminHome.html" %}
+{% block content %}
+
+<br><br><br><br>
+
+<!-- Bookings Section -->
+<section class="section py-5 bg-light">
+
+  <!-- Section Title -->
+  <div class="container text-center mb-4">
+    <h2 class="fw-bold">Room Bookings</h2>
+    <p class="text-muted">Bookings for your accommodation</p>
+  </div>
+
+  <div class="container">
+
+    {% if bookings %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle bg-white shadow">
+
+        <thead class="table-dark text-center">
+          <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Room Details</th>
+            <th>Booking Date</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Booked On</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for booking in bookings %}
+          <tr>
+
+            <td class="text-center">{{ forloop.counter }}</td>
+
+            <!-- USER -->
+            <td>
+              <strong>{{ booking.user.name }}</strong><br>
+              <small>{{ booking.user.email }}</small><br>
+              <small>{{ booking.user.phone }}</small>
+            </td>
+
+            <!-- ROOM -->
+            <td>
+              <strong>Type:</strong> {{ booking.room.room_type }}<br>
+              <strong>Beds:</strong> {{ booking.room.bed_capacity }}<br>
+              <strong>Rate:</strong> ₹ {{ booking.room.rate }}/day
+            </td>
+
+            <!-- BOOKING DATE -->
+            <td class="text-center">
+              {{ booking.booking_date|date:"d M Y" }}
+            </td>
+
+            <!-- DESCRIPTION -->
+            <td>
+              {{ booking.description }}
+            </td>
+
+            <!-- STATUS -->
+            <td class="text-center">
+              <span class="badge
+                {% if booking.status == 'Pending' %} bg-warning text-dark
+                {% elif booking.status == 'BOOKED' %} bg-success
+                {% elif booking.status == 'Rejected' %} bg-danger
+                {% else %} bg-secondary {% endif %}">
+                {{ booking.status }}
+              </span>
+            </td>
+
+            <td class="text-center">
+              {{ booking.room.rate }} Rs/-
+            </td>
+            <!-- BOOKED ON -->
+            <td class="text-center">
+              {{ booking.booking_made_date|date:"d M Y, h:i A" }}
+            </td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+
+    {% else %}
+      <p class="text-center text-muted">No bookings available.</p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

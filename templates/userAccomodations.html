@@ -1,0 +1,102 @@
+{% extends "userHome.html" %}
+{% block content %}
+
+<br><br><br><br>
+
+<!-- Accomodations Section -->
+<section class="section py-5 bg-light">
+
+  <!-- Section Header -->
+  <div class="container text-center mb-5">
+    <h2 class="fw-bold">Accommodations</h2>
+    <p class="text-muted">All registered accommodations</p>
+
+    <!-- Search -->
+    <form method="post" action="/userSearchAcc"
+          class="d-flex justify-content-center mt-3">
+      {% csrf_token %}
+      <div class="input-group" style="max-width: 500px;">
+        <input type="text" name="search" class="form-control"
+               placeholder="Search by name or location">
+        <button class="btn btn-primary">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+
+    {% if accomodations %}
+    <div class="row g-4">
+
+      {% for acc in accomodations %}
+      <div class="col-md-4">
+
+        <div class="card shadow h-100 border-0 rounded-4">
+
+          <!-- Card Header -->
+          <div class="card-header bg-primary text-white rounded-top-4">
+            <h5 class="mb-0">{{ acc.name }}</h5>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body">
+
+            <p class="mb-1">
+              <i class="bi bi-geo-alt-fill text-danger"></i>
+              <strong>Location:</strong> {{ acc.location }}
+            </p>
+
+            <p class="mb-1">
+              <i class="bi bi-envelope-fill text-primary"></i>
+              <strong>Email:</strong> {{ acc.email }}
+            </p>
+
+            <p class="mb-1">
+              <i class="bi bi-telephone-fill text-success"></i>
+              <strong>Phone:</strong> {{ acc.phone }}
+            </p>
+
+            <p class="mb-2">
+              <i class="bi bi-house-door-fill"></i>
+              <strong>Address:</strong><br>
+              {{ acc.address }}
+            </p>
+
+            <p class="small text-muted mb-2">
+              <strong>Registered On:</strong>
+              {{ acc.reg_date|date:"d M Y" }}
+            </p>
+
+          </div>
+
+          <!-- Card Footer -->
+          <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+
+
+
+            <a href="/userVwRooms?aid={{ acc.id }}" 
+               class="btn btn-outline-primary btn-sm">
+              View Rooms
+            </a>
+          
+
+            
+
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    {% else %}
+      <p class="text-center text-muted">No accommodations found.</p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

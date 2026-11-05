@@ -1,0 +1,79 @@
+{% extends "adminHome.html" %}
+{% block content %}
+
+<br><br><br><br>
+
+
+<!-- Featured Products Section -->
+<section id="featured-products" class="featured-products section py-5 bg-light">
+
+  <!-- Section Title -->
+  <div class="container text-center mb-4" data-aos="fade-up">
+    <h2 class="fw-bold">All Feedback</h2>
+    <p class="text-muted">View all feedbacks</p>
+
+    
+
+  </div>
+  <!-- Cart Table -->
+  <div class="container" data-aos="fade-up">
+    {% if data %}
+    <style>
+      .feedback-stars{display:inline-block;position:relative;font-size:18px;line-height:1}
+      .feedback-stars .stars-outer{color:#ddd}
+      .feedback-stars .stars-inner{position:absolute;left:0;top:0;overflow:hidden;color:gold;white-space:nowrap}
+    </style>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Customer</th>
+            <th>Seller</th>
+            <th>Rating</th>
+            <th>Comments</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for fb in data %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="d-flex align-items-center">
+              <div class="me-2" style="width:56px; height:56px; overflow:hidden">
+                <img src="static/media/{{ fb.booking.product.image }}" alt="{{ fb.booking.product.name }}" class="img-fluid">
+              </div>
+              <div>
+                <div class="fw-bold">{{ fb.booking.product.name }}</div>
+                <div class="small text-muted">{{ fb.booking.product.category }}</div>
+              </div>
+            </td>
+            <td>{{ fb.booking.user.name }} <br> {{ fb.booking.user.email }}</td>
+            <td>{{ fb.booking.product.supplier.compnay_name }} <br> {{ fb.booking.product.supplier.email }}</td>
+            <td>
+              <div class="feedback-stars" style="--rating: {{ fb.rating }};">
+                <div class="stars-outer">★★★★★</div>
+                <div class="stars-inner" style="width: calc(var(--rating) / 5 * 100%);">★★★★★</div>
+              </div>
+              <div class="small text-muted">({{ fb.rating }}/5)</div>
+            </td>
+            <td>{{ fb.comments }}</td>
+            <td>{{ fb.feedback_date|date:"M d, Y" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="text-center text-muted">No feedback available yet.</p>
+    {% endif %}
+  </div>
+</section>
+<!-- End Featured Products Section -->
+
+
+
+
+
+{% endblock %}

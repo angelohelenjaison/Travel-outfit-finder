@@ -1,0 +1,97 @@
+{% extends 'index.html' %} {% block content %}
+  <style>
+    /* styles.css */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      padding: 20px;
+    }
+    
+    .weather-container {
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      width: 50%;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .weather-container h1 {
+      color: #0275d8;
+    }
+    
+    .weather-container p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .weather-container img {
+      vertical-align: middle;
+    }
+    .weather-container form {
+        margin-bottom: 20px;
+    }
+    
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        background-color: #0275d8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #0256c8;
+    }
+  </style>
+  <center>
+    <div style="margin: 100px 50px">
+        <div class="weather-container">
+          <form method="post">
+              {% csrf_token %}
+              <input type="text" name="location" placeholder="Enter a location" required>
+              <button type="submit">Get Weather</button>
+          </form>
+        <h1>Weather Report for {{ location_name }}, {{ region }}, {{ country }}</h1>
+        <p>
+          <strong>Local Time:</strong> {{ local_time }}
+        </p>
+        <p>
+          <strong>Temperature:</strong> {{ temperature_c }}°C / {{ temperature_f }}°F
+        </p>
+        <p>
+          <strong>Condition:</strong> {{ condition_text }} <img src="{{ icon_url }}" alt="{{ condition_text }}" />
+        </p>
+        <p>
+          <strong>Wind:</strong> {{ wind_kph }} kph {{ wind_direction }}
+        </p>
+        <p>
+          <strong>Humidity:</strong> {{ humidity }}%
+        </p>
+        <p>
+          <strong>Pressure:</strong> {{ pressure_mb }} mb
+        </p>
+        <p>
+          <strong>Visibility:</strong> {{ visibility_km }} km
+        </p>
+        <p>
+          <strong>UV Index:</strong> {{ uv_index }}
+        </p>
+      </div>
+    </div>
+  </center>
+  <script>
+    var msg = '{{msg}}'
+    if (msg != '') alert(msg)
+  </script>
+{% endblock %}
