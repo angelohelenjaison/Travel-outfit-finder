@@ -8,12 +8,12 @@ Project Objectives:
 Features:
 - User Registration & Login:Secure account creation and login.
 - Trip Details: Enter destination, travel dates, and trip type.
-- Weather-Based Outfit Suggestions:** Recommend clothing according to destination weather.
+- Weather-Based Outfit Suggestions: Recommend clothing according to destination weather.
 - Packing Checklist: Organize essential clothing and travel items.
 - Product Management: Browse clothing and accessories provided by suppliers.
 - Booking Management: Manage product bookings and orders.
 - Accommodation Management: Manage accommodation details, rooms, and bookings.
-- F0eedback System: Allow users to submit ratings and feedback.
+- Feedback System: Allow users to submit ratings and feedback.
 - Admin Dashboard:Manage customers, suppliers, products, accommodations, and feedback.
 Technologies Used
 - Programming Language: Python
